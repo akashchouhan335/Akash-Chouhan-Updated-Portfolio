@@ -1,0 +1,66 @@
+# Dependencies
+node_modules/
+**/node_modules/
+.pnp
+.pnp.js
+
+# Production & Build outputs
+dist/
+**/dist/
+build/
+**/build/
+.output/
+*.tsbuildinfo
+
+# Environment variables & Secrets (CRITICAL)
+.env
+.env.*
+*.env
+**/.env
+**/.env.*
+!**/.env.example
+
+# Credentials & Private Keys
+*.pem
+*.key
+*.cert
+*.crt
+*.pfx
+*.p12
+id_rsa*
+secrets.*
+
+# Markdown documentation / notes (Preserve official README only)
+*.md
+**/*.md
+!README.md
+!**/README.md
+
+# Deployment & Hosting
+.netlify/
+.vercel/
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Editor & OS Artifacts
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+.DS_Store
+Thumbs.db
+[Dd]esktop.ini
+$RECYCLE.BIN/
+
+# Temporary / Scratch Files
+*.tmp
+*.bak
+*.swp
+dirs.txt
+**/dirs.txt
