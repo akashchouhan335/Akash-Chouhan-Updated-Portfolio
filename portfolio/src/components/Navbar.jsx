@@ -12,12 +12,19 @@ const NAV_LINKS = [
 ]
 
 export default function Navbar() {
-  const [scrolled, setScrolled] = useState(false)
+  const [scrolled, setScrolled] = useState(() => typeof window !== 'undefined' ? window.scrollY > 100 : false)
   const [mobileOpen, setMobileOpen] = useState(false)
 
   useEffect(() => {
-    // Show navbar after scrolling down 100px
-    const onScroll = () => setScrolled(window.scrollY > 100)
+    let wasScrolled = window.scrollY > 100
+
+    const onScroll = () => {
+      const isScrolled = window.scrollY > 100
+      if (isScrolled !== wasScrolled) {
+        wasScrolled = isScrolled
+        setScrolled(isScrolled)
+      }
+    }
     window.addEventListener('scroll', onScroll, { passive: true })
     return () => window.removeEventListener('scroll', onScroll)
   }, [])

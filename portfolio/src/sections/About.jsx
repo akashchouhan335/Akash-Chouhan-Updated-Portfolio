@@ -46,14 +46,27 @@ export default function About() {
 
   useGSAP(() => {
     gsap.from('.about-reveal', {
-      y: 50,
+      y: 40,
       opacity: 0,
-      duration: 1,
-      stagger: 0.2,
+      duration: 1.0,
+      stagger: 0.15,
       ease: 'power3.out',
       scrollTrigger: {
         trigger: comp.current,
-        start: 'top 70%',
+        start: 'top 75%',
+        once: true,
+      }
+    })
+
+    // Subtle editorial parallax offset between columns (House of Honey feel)
+    gsap.to('.about-parallax-col', {
+      y: -30,
+      ease: 'none',
+      scrollTrigger: {
+        trigger: comp.current,
+        start: 'top bottom',
+        end: 'bottom top',
+        scrub: true,
       }
     })
   }, { scope: comp })
@@ -77,8 +90,8 @@ export default function About() {
           </h2>
         </div>
 
-        {/* Right: Editorial List */}
-        <div className="space-y-12">
+        {/* Right: Editorial List with Parallax Depth */}
+        <div className="about-parallax-col space-y-12">
           <div className="about-reveal">
             <p className="text-xl text-gray-300 font-light leading-relaxed mb-8">
               B.Tech student heavily focused on Java, Data Structures, Algorithms, and Full-Stack development. I thrive in building efficient products that solve real problems.

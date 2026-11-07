@@ -29,7 +29,8 @@ export default function Contact() {
         ease: 'power3.out',
         scrollTrigger: {
           trigger: comp.current,
-          start: 'top 75%'
+          start: 'top 75%',
+          once: true,
         }
       })
     }, comp)

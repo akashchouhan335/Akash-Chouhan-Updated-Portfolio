@@ -25,7 +25,8 @@ export default function Certificates() {
       ease: 'power2.out',
       scrollTrigger: {
         trigger: comp.current,
-        start: 'top 85%'
+        start: 'top 85%',
+        once: true,
       }
     })
   }, { scope: comp })

@@ -1,8 +1,7 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useRef, useState } from 'react'
 import { gsap } from 'gsap'
 import { useGSAP } from '@gsap/react'
-import { ArrowDown, Mail } from 'lucide-react'
-import { GithubIcon, LinkedinIcon } from '@/components/SocialIcons'
+import { ArrowDown } from 'lucide-react'
 import ProfileCard from '@/components/ProfileCard'
 import Beams from '@/components/Beams'
 
@@ -188,10 +187,15 @@ export default function Hero() {
       </div>
 
       {/* Scroll Indicator */}
-      <div className="scroll-indicator absolute bottom-2 sm:bottom-8 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-3 text-white pointer-events-none">
-        <span className="text-[10px] uppercase tracking-[0.3em] font-mono opacity-40">Scroll to Explore</span>
-        <ArrowDown size={18} className="opacity-40 animate-bounce" />
-      </div>
+      <a
+        href="#about"
+        className="scroll-indicator absolute bottom-2 sm:bottom-8 left-1/2 -translate-x-1/2 z-30 flex flex-col items-center gap-3 text-white pointer-events-auto cursor-pointer group"
+      >
+        <span className="text-[10px] uppercase tracking-[0.3em] font-mono opacity-40 group-hover:opacity-90 transition-opacity">
+          Scroll to Explore
+        </span>
+        <ArrowDown size={18} className="opacity-40 group-hover:opacity-90 animate-bounce transition-opacity" />
+      </a>
     </section>
   )
 }

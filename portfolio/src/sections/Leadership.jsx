@@ -1,5 +1,10 @@
-import { useEffect, useLayoutEffect, useRef, useState, useCallback } from 'react'
+import { useRef, useState } from 'react'
+import { gsap } from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import { useGSAP } from '@gsap/react'
 import { timelineEntries } from '@/data/timeline'
+
+gsap.registerPlugin(ScrollTrigger)
 
 /* ─── Tag color mapping with glowing aura ─────────────────────── */
 const TAG_THEMES = {
@@ -32,81 +37,61 @@ export default function Leadership() {
 
   const total = timelineEntries.length
   const [activeIndex, setActiveIndex] = useState(0)
-  const [trackTranslateY, setTrackTranslateY] = useState(0)
-  const [isReady, setIsReady] = useState(false)
+  const activeIndexRef = useRef(0)
 
   // Spine horizontal positioning class used by Spine line, Focal Ball, and Dots
   const spinePosClass = "left-6 sm:left-10 md:left-14 lg:left-16"
 
-  // Calculate track translation so active dot aligns precisely at 50% vertical center
-  const updatePosition = useCallback(() => {
+  useGSAP(() => {
     const section = sectionRef.current
     const rightCol = rightColRef.current
     const track = trackRef.current
     if (!section || !rightCol || !track) return
 
-    const sectionRect = section.getBoundingClientRect()
-    const sectionHeight = section.offsetHeight
-    const windowHeight = window.innerHeight
-
-    // Normalized progress (0 when section top hits top of viewport, 1 at bottom)
-    const rawProgress = -sectionRect.top / (sectionHeight - windowHeight)
-    const progress = Math.max(0, Math.min(1, rawProgress))
-
-    // The focal line is at exactly 50% (middle) of the right column
     const focalCenterY = rightCol.offsetHeight * 0.5
-
-    // Measure unshifted relative offsets of each dot inside the track
     const trackRect = track.getBoundingClientRect()
     const dotOffsets = dotRefs.current.map((dotEl) => {
       if (!dotEl) return 0
       const dotRect = dotEl.getBoundingClientRect()
-      // (dotRect.top - trackRect.top) is invariant to CSS translateY applied on track
       return (dotRect.top - trackRect.top) + (dotRect.height / 2)
     })
 
-    if (dotOffsets.length === 0 || !dotOffsets[0]) return
-
     const maxIdx = total - 1
-    const virtualIdx = progress * maxIdx
-    const currentActive = Math.min(maxIdx, Math.round(virtualIdx))
-    setActiveIndex(currentActive)
 
-    // Smoothly interpolate between dot offsets based on scroll progress
-    const baseIdx = Math.floor(virtualIdx)
-    const nextIdx = Math.min(maxIdx, baseIdx + 1)
-    const fraction = virtualIdx - baseIdx
-
-    const offsetA = dotOffsets[baseIdx]
-    const offsetB = dotOffsets[nextIdx] ?? offsetA
-    const interpolatedOffset = offsetA + (offsetB - offsetA) * fraction
-
-    // Target translation brings the interpolated dot position exactly to focalCenterY
-    const targetY = focalCenterY - interpolatedOffset
-    setTrackTranslateY(targetY)
-    setIsReady(true)
-  }, [total])
-
-  // Synchronous layout calculation on mount to guarantee perfect starting alignment
-  useLayoutEffect(() => {
-    updatePosition()
-  }, [updatePosition])
-
-  useEffect(() => {
-    window.addEventListener('scroll', updatePosition, { passive: true })
-    window.addEventListener('resize', updatePosition, { passive: true })
-
-    // Re-check when web fonts or layout shifts settle
-    const rAF = requestAnimationFrame(updatePosition)
-    const timer = setTimeout(updatePosition, 100)
-
-    return () => {
-      window.removeEventListener('scroll', updatePosition)
-      window.removeEventListener('resize', updatePosition)
-      cancelAnimationFrame(rAF)
-      clearTimeout(timer)
+    // Initial position setup
+    if (dotOffsets[0]) {
+      track.style.transform = `translate3d(0, ${focalCenterY - dotOffsets[0]}px, 0)`
     }
-  }, [updatePosition])
+
+    const st = ScrollTrigger.create({
+      trigger: section,
+      start: 'top top',
+      end: 'bottom bottom',
+      scrub: true,
+      onUpdate: (self) => {
+        const virtualIdx = self.progress * maxIdx
+        const currentActive = Math.min(maxIdx, Math.round(virtualIdx))
+
+        if (currentActive !== activeIndexRef.current) {
+          activeIndexRef.current = currentActive
+          setActiveIndex(currentActive)
+        }
+
+        const baseIdx = Math.floor(virtualIdx)
+        const nextIdx = Math.min(maxIdx, baseIdx + 1)
+        const fraction = virtualIdx - baseIdx
+
+        const offsetA = dotOffsets[baseIdx] || 0
+        const offsetB = dotOffsets[nextIdx] ?? offsetA
+        const interpolatedOffset = offsetA + (offsetB - offsetA) * fraction
+
+        const targetY = focalCenterY - interpolatedOffset
+        track.style.transform = `translate3d(0, ${targetY}px, 0)`
+      },
+    })
+
+    return () => st.kill()
+  }, { scope: sectionRef, dependencies: [total] })
 
   const activeEntry = timelineEntries[activeIndex] || timelineEntries[0]
   const activeTheme = TAG_THEMES[activeEntry.tag] || TAG_THEMES.Leadership
@@ -249,10 +234,6 @@ export default function Leadership() {
           <div
             ref={trackRef}
             className="relative z-10 will-change-transform"
-            style={{
-              transform: `translate3d(0, ${trackTranslateY}px, 0)`,
-              transition: isReady ? 'transform 0.4s cubic-bezier(0.16, 1, 0.3, 1)' : 'none',
-            }}
           >
             {timelineEntries.map((entry, idx) => {
               const theme = TAG_THEMES[entry.tag] || TAG_THEMES.Leadership

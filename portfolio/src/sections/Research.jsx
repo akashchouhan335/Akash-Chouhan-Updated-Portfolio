@@ -35,6 +35,7 @@ export default function Research() {
         scrollTrigger: {
           trigger: comp.current,
           start: 'top 80%',
+          once: true,
         },
       })
     }, comp)

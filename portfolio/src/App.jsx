@@ -8,10 +8,11 @@ import Research from '@/sections/Research'
 import Certificates from '@/sections/Certificates'
 import Contact from '@/sections/Contact'
 import { EyeTracking } from '@/components/ui/eye-tracking'
+import SmoothScrollProvider from '@/components/SmoothScrollProvider'
 
 export default function App() {
   return (
-    <>
+    <SmoothScrollProvider>
       <a
         href="#about"
         className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[100] focus:px-4 focus:py-2 focus:bg-[var(--color-accent)] focus:text-[var(--color-bg)] focus:rounded-[var(--radius-md)] focus:font-semibold"
@@ -43,6 +44,6 @@ export default function App() {
           pupilColor="#030303"          /* --color-bg */
         />
       </div>
-    </>
+    </SmoothScrollProvider>
   )
 }
