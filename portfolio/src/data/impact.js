@@ -68,9 +68,9 @@ export const impactTimelineData = [
   {
     id: 6,
     title: "Patent Published",
-    date: "2025",
+    date: "Nov 2025",
     content:
-      "Published patent for a Wearable System for Adaptive Mental Health Support — a biomedical engineering contribution combining biometric stress markers with intelligent haptic feedback.",
+      "Published Indian patent (App No. 202521100865 A) for 'Wearable System for Adaptive Mental Health Support' — an intelligent multi-modal wearable integrating biometric sensors, ERM vibration motors, and haptic breathing dials.",
     category: "Research",
     icon: BookOpen,
     relatedIds: [3],

@@ -9,7 +9,7 @@ gsap.registerPlugin(ScrollTrigger)
 const CERTIFICATES = [
   { id: 'ecell',   title: 'E-Cell Event Head',           issuer: 'Entrepreneurship Cell',        description: 'Official certification as Event Head for national-level tech and entrepreneurial fests.' },
   { id: 'nss',     title: 'NSS Co-Head',                  issuer: 'National Service Scheme',      description: 'Official recognition as Co-Head of the NSS Unit, leading 100+ volunteers.' },
-  { id: 'patent',  title: 'Patent Published',             issuer: 'Research Publication',         description: 'Published patent for Wearable System for Adaptive Mental Health Support.' },
+  { id: 'patent',  title: 'Patent Published',             issuer: 'Indian Patent Office (IPO)',   description: 'Official patent publication (Application No. 202521100865 A, Published Nov 14, 2025). Multi-modal wearable system integrating stress sensors, ERM vibration motors, rotary dial breathing guidance, and pneumatic compression.' },
   { id: 'java',    title: 'Minor Project — Java',         issuer: 'Academic Certification',       description: 'Completed minor project certification in Java software development.' },
 ]
 
