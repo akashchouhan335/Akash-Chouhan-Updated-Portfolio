@@ -19,7 +19,7 @@ export default function Hero() {
       duration: 15,
       ease: 'none'
     })
-    
+
     // Card Entrance Animation (animating the wrapper so it doesn't fight the inner flip)
     gsap.from('.flip-card-container', {
       y: 150,
@@ -29,7 +29,7 @@ export default function Hero() {
       ease: 'power4.out',
       delay: 0.2
     })
-    
+
     // Scroll Indicator Fade In
     gsap.from('.scroll-indicator', {
       opacity: 0,
@@ -44,7 +44,7 @@ export default function Hero() {
       isMounted.current = true
       return
     }
-    
+
     if (isFlipped) {
       gsap.to('.card-inner', { rotateY: 180, duration: 0.8, ease: 'power3.inOut' })
     } else {
@@ -54,7 +54,7 @@ export default function Hero() {
 
   return (
     <section ref={heroRef} id="home" className="relative h-screen w-full flex items-center justify-center overflow-hidden bg-[#030303]">
-      
+
       {/* Beams Background */}
       <div className="absolute inset-0 z-0 opacity-60">
         <Beams
@@ -115,16 +115,16 @@ export default function Hero() {
         style={{ perspective: '1500px' }}
         onClick={() => setIsFlipped(!isFlipped)}
       >
-        <div 
-          className="card-inner w-[300px] h-[478px] md:w-[360px] md:h-[573px] relative" 
+        <div
+          className="card-inner w-[300px] h-[478px] md:w-[360px] md:h-[573px] relative"
           style={{ transformStyle: 'preserve-3d' }}
         >
-          
+
           {/* FRONT SIDE (The exact React Bits component) */}
-          <div 
+          <div
             className="absolute inset-0 w-full h-full rounded-[30px]"
-            style={{ 
-              backfaceVisibility: 'hidden', 
+            style={{
+              backfaceVisibility: 'hidden',
               WebkitBackfaceVisibility: 'hidden',
             }}
           >
@@ -150,22 +150,22 @@ export default function Hero() {
           </div>
 
           {/* BACK SIDE (Details page) */}
-          <div 
+          <div
             className="absolute inset-0 w-full h-full rounded-[30px] overflow-hidden border border-white/10 bg-[#0a0a0a] flex flex-col items-center justify-center p-8 shadow-2xl backdrop-blur-xl"
-            style={{ 
-              backfaceVisibility: 'hidden', 
+            style={{
+              backfaceVisibility: 'hidden',
               WebkitBackfaceVisibility: 'hidden',
-              transform: 'rotateY(180deg)' 
+              transform: 'rotateY(180deg)'
             }}
           >
-            
+
             <h3 className="text-3xl font-bold font-[var(--font-display)] mb-1 text-transparent bg-clip-text bg-gradient-to-r from-white to-[#71C4FF] tracking-tighter text-center">
               Akash Chouhan
             </h3>
             <p className="text-gray-400 font-mono text-xs mb-8 uppercase tracking-widest text-center">
               Software Engineer
             </p>
-            
+
             <div className="w-full flex-1 space-y-4 text-sm font-mono text-gray-400">
               <div className="flex justify-between items-center group/item hover:text-white transition-colors">
                 <span className="uppercase text-xs tracking-widest">College</span>
@@ -180,22 +180,23 @@ export default function Hero() {
                 <span className="text-right text-white/80">NSS & E-Cell Head</span>
               </div>
             </div>
-            
+
           </div>
 
         </div>
-      </div>
 
-      {/* Scroll Indicator */}
-      <a
-        href="#about"
-        className="scroll-indicator absolute bottom-2 sm:bottom-8 left-1/2 -translate-x-1/2 z-30 flex flex-col items-center gap-3 text-white pointer-events-auto cursor-pointer group"
-      >
-        <span className="text-[10px] uppercase tracking-[0.3em] font-mono opacity-40 group-hover:opacity-90 transition-opacity">
-          Scroll to Explore
-        </span>
-        <ArrowDown size={18} className="opacity-40 group-hover:opacity-90 animate-bounce transition-opacity" />
-      </a>
+        {/* Scroll Indicator - positioned directly AFTER the card without altering card's center */}
+        <a
+          href="#about"
+          onClick={(e) => e.stopPropagation()}
+          className="scroll-indicator absolute top-[calc(100%+1.25rem)] left-1/2 -translate-x-1/2 flex flex-col items-center gap-1.5 text-white pointer-events-auto cursor-pointer group whitespace-nowrap"
+        >
+          <span className="text-[10px] uppercase tracking-[0.3em] font-mono opacity-40 group-hover:opacity-90 transition-opacity">
+            Scroll to Explore
+          </span>
+          <ArrowDown size={14} className="opacity-40 group-hover:opacity-90 animate-bounce transition-opacity" />
+        </a>
+      </div>
     </section>
   )
 }
