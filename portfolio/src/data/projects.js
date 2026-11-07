@@ -7,7 +7,7 @@ export const projects = [
     summary:
       'Engineered 20 RESTful API endpoints orchestrating a 5-agent Google Gemini AI system for Priority, Risk, Recovery, Schedule, and Coaching workflows. Load-tested at 500+ requests/second (RPS) at p99 latency below 150 ms.',
     technologies: ['React.js', 'Vite', 'Node.js', 'Express.js', 'Firebase Firestore', 'JWT', 'Gemini API', 'Jest', 'Supertest', 'bcrypt'],
-    github: 'https://github.com/akashchouhan335',
+    github: 'https://github.com/akashchouhan335/Google_Hackathon_Project',
     liveDemo: 'https://deadlineguardian-ai.firebaseapp.com',
     image: '/deadline-guardian.png',
     featured: true,
@@ -21,7 +21,7 @@ export const projects = [
     summary:
       'Developed an AI-powered study and exam planning SaaS generating personalized study paths. Engineered serverless APIs using Vercel Functions to integrate Google Gemini API, Firebase Auth, and transaction alerts.',
     technologies: ['HTML5', 'CSS3', 'JavaScript', 'Node.js', 'Firebase', 'Google OAuth', 'Gemini API', 'Nodemailer', 'Vercel Functions'],
-    github: 'https://github.com/akashchouhan335',
+    github: 'https://github.com/akashchouhan335/PrepSyncAI',
     liveDemo: 'https://prepsyncai.vercel.app',
     image: '/prepsyncai.png',
     featured: true,

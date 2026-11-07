@@ -48,20 +48,70 @@ export default function Leadership() {
     const track = trackRef.current
     if (!section || !rightCol || !track) return
 
-    const focalCenterY = rightCol.offsetHeight * 0.5
-    const trackRect = track.getBoundingClientRect()
-    const dotOffsets = dotRefs.current.map((dotEl) => {
-      if (!dotEl) return 0
-      const dotRect = dotEl.getBoundingClientRect()
-      return (dotRect.top - trackRect.top) + (dotRect.height / 2)
-    })
-
     const maxIdx = total - 1
 
-    // Initial position setup
-    if (dotOffsets[0]) {
-      track.style.transform = `translate3d(0, ${focalCenterY - dotOffsets[0]}px, 0)`
+    const calculateOffsets = () => {
+      const focalY = rightCol.offsetHeight * 0.5
+      const offsets = dotRefs.current.map((dotEl) => {
+        if (!dotEl) return 0
+        const titleRow = dotEl.parentElement
+        const card = titleRow?.parentElement
+        if (card && titleRow) {
+          // Precise layout measurement immune to CSS scale transform distortion
+          return card.offsetTop + titleRow.offsetTop + (titleRow.offsetHeight / 2)
+        }
+        const trackRect = track.getBoundingClientRect()
+        const dotRect = dotEl.getBoundingClientRect()
+        return (dotRect.top - trackRect.top) + (dotRect.height / 2)
+      })
+      return { focalY, offsets }
     }
+
+    let { focalY: focalCenterY, offsets: dotOffsets } = calculateOffsets()
+
+    const applyScrollProgress = (progress) => {
+      let virtualIdx
+      if (total <= 1) {
+        virtualIdx = 0
+      } else if (total === 3) {
+        if (progress <= 0.10) {
+          virtualIdx = 0
+        } else if (progress <= 0.45) {
+          virtualIdx = (progress - 0.10) / 0.35
+        } else if (progress <= 0.55) {
+          virtualIdx = 1
+        } else if (progress <= 0.85) {
+          virtualIdx = 1 + (progress - 0.55) / 0.30
+        } else {
+          virtualIdx = 2
+        }
+      } else {
+        const endRest = 0.15
+        const usableProgress = Math.min(1, Math.max(0, progress / (1 - endRest)))
+        virtualIdx = usableProgress * maxIdx
+      }
+
+      const currentActive = Math.min(maxIdx, Math.round(virtualIdx))
+
+      if (currentActive !== activeIndexRef.current) {
+        activeIndexRef.current = currentActive
+        setActiveIndex(currentActive)
+      }
+
+      const baseIdx = Math.floor(virtualIdx)
+      const nextIdx = Math.min(maxIdx, baseIdx + 1)
+      const fraction = virtualIdx - baseIdx
+
+      const offsetA = dotOffsets[baseIdx] || 0
+      const offsetB = dotOffsets[nextIdx] ?? offsetA
+      const interpolatedOffset = offsetA + (offsetB - offsetA) * fraction
+
+      const targetY = focalCenterY - interpolatedOffset
+      track.style.transform = `translate3d(0, ${targetY}px, 0)`
+    }
+
+    // Initial position setup
+    applyScrollProgress(0)
 
     const st = ScrollTrigger.create({
       trigger: section,
@@ -69,28 +119,26 @@ export default function Leadership() {
       end: 'bottom bottom',
       scrub: true,
       onUpdate: (self) => {
-        const virtualIdx = self.progress * maxIdx
-        const currentActive = Math.min(maxIdx, Math.round(virtualIdx))
-
-        if (currentActive !== activeIndexRef.current) {
-          activeIndexRef.current = currentActive
-          setActiveIndex(currentActive)
-        }
-
-        const baseIdx = Math.floor(virtualIdx)
-        const nextIdx = Math.min(maxIdx, baseIdx + 1)
-        const fraction = virtualIdx - baseIdx
-
-        const offsetA = dotOffsets[baseIdx] || 0
-        const offsetB = dotOffsets[nextIdx] ?? offsetA
-        const interpolatedOffset = offsetA + (offsetB - offsetA) * fraction
-
-        const targetY = focalCenterY - interpolatedOffset
-        track.style.transform = `translate3d(0, ${targetY}px, 0)`
+        applyScrollProgress(self.progress)
       },
     })
 
-    return () => st.kill()
+    const updateMeasurements = () => {
+      const updated = calculateOffsets()
+      focalCenterY = updated.focalY
+      dotOffsets = updated.offsets
+      applyScrollProgress(st.progress)
+    }
+
+    if (document.fonts?.ready) {
+      document.fonts.ready.then(updateMeasurements)
+    }
+    window.addEventListener('resize', updateMeasurements)
+
+    return () => {
+      window.removeEventListener('resize', updateMeasurements)
+      st.kill()
+    }
   }, { scope: sectionRef, dependencies: [total] })
 
   const activeEntry = timelineEntries[activeIndex] || timelineEntries[0]

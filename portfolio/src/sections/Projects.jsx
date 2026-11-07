@@ -2,11 +2,11 @@ import { useRef, useState } from 'react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { useGSAP } from '@gsap/react'
-import { ExternalLink } from 'lucide-react'
 import { GithubIcon } from '@/components/SocialIcons'
 import { projects } from '@/data/projects'
 import { Badge } from '@/components/Badge'
 import StarButton from '@/components/ui/star-button'
+import TactileButton from '@/components/ui/tactile-button'
 import { scrollTo } from '@/lib/smooth-scroll'
 
 gsap.registerPlugin(ScrollTrigger)
@@ -153,15 +153,9 @@ export default function Projects() {
                     </StarButton>
                   )}
                   {project.liveDemo && (
-                    <a
-                      href={project.liveDemo}
-                      target="_blank"
-                      rel="noreferrer"
-                      className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full bg-white text-black font-semibold hover:bg-neutral-200 transition-all duration-300 font-mono text-xs uppercase tracking-widest shadow-lg shadow-white/10 hover:shadow-white/20 hover:scale-105 active:scale-95 cursor-pointer"
-                    >
-                      <span>Live Demo</span>
-                      <ExternalLink size={14} />
-                    </a>
+                    <div className="w-[230px] h-[75px] -ml-2 -mt-2 pointer-events-auto">
+                      <TactileButton href={project.liveDemo} className="w-full h-full" />
+                    </div>
                   )}
                 </div>
               </div>

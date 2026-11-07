@@ -39,14 +39,14 @@ export const achievements = [
   },
   {
     id: 'hackathon-cognizant',
-    title: 'Hackathon Finalist / Participant',
+    title: 'Hackathon Participant',
     description: 'Cognizant Technoverse Hackathon 2026.',
     type: 'achievement',
     icon: '💻',
   },
   {
     id: 'hackathon-coding-ninjas',
-    title: 'Hackathon Finalist / Participant',
+    title: 'Hackathon Participant',
     description: 'Coding Ninjas × Google for Developers Hackathon.',
     type: 'achievement',
     icon: '💻',
