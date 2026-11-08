@@ -5,7 +5,7 @@ import TechStack from '@/sections/TechStack'
 import Projects from '@/sections/Projects'
 import Leadership from '@/sections/Leadership'
 import Research from '@/sections/Research'
-import Certificates from '@/sections/Certificates'
+import PhotoGallery from '@/sections/PhotoGallery'
 import Contact from '@/sections/Contact'
 import { EyeTracking } from '@/components/ui/eye-tracking'
 import SmoothScrollProvider from '@/components/SmoothScrollProvider'
@@ -29,7 +29,7 @@ export default function App() {
         <Projects />
         <Leadership />
         <Research />
-        <Certificates />
+        <PhotoGallery />
         <Contact />
       </main>
 
