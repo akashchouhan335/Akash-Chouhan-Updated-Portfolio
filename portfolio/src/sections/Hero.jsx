@@ -12,14 +12,6 @@ export default function Hero() {
   const isMounted = useRef(false)
 
   useGSAP(() => {
-    // Background Infinite Marquee
-    gsap.to('.marquee-part', {
-      xPercent: -100,
-      repeat: -1,
-      duration: 15,
-      ease: 'none'
-    })
-
     // Card Entrance Animation (animating the wrapper so it doesn't fight the inner flip)
     gsap.from('.flip-card-container', {
       y: 150,
@@ -71,43 +63,6 @@ export default function Hero() {
         />
       </div>
 
-      {/* Background Marquee */}
-      <div className="absolute inset-0 z-10 flex flex-col justify-center pointer-events-none select-none overflow-hidden">
-        <div className="flex whitespace-nowrap transform -rotate-2">
-          <div className="marquee-part flex shrink-0 whitespace-nowrap text-[12rem] md:text-[20rem] font-[var(--font-display)] font-bold uppercase tracking-tighter leading-none text-[#2a2a2a]">
-            <span className="px-8 flex shrink-0 pointer-events-auto">
-              {"AKASH CHOUHAN".split('').map((char, index) => (
-                <span key={index} className="hover:text-[var(--color-accent)] transition-colors duration-300 cursor-default">
-                  {char === ' ' ? '\u00A0' : char}
-                </span>
-              ))}
-            </span>
-            <span className="px-8 flex shrink-0 pointer-events-auto">
-              {"AKASH CHOUHAN".split('').map((char, index) => (
-                <span key={index} className="hover:text-[var(--color-accent)] transition-colors duration-300 cursor-default">
-                  {char === ' ' ? '\u00A0' : char}
-                </span>
-              ))}
-            </span>
-          </div>
-          <div className="marquee-part flex shrink-0 whitespace-nowrap text-[12rem] md:text-[20rem] font-[var(--font-display)] font-bold uppercase tracking-tighter leading-none text-[#2a2a2a]">
-            <span className="px-8 flex shrink-0 pointer-events-auto">
-              {"AKASH CHOUHAN".split('').map((char, index) => (
-                <span key={index} className="hover:text-[var(--color-accent)] transition-colors duration-300 cursor-default">
-                  {char === ' ' ? '\u00A0' : char}
-                </span>
-              ))}
-            </span>
-            <span className="px-8 flex shrink-0 pointer-events-auto">
-              {"AKASH CHOUHAN".split('').map((char, index) => (
-                <span key={index} className="hover:text-[var(--color-accent)] transition-colors duration-300 cursor-default">
-                  {char === ' ' ? '\u00A0' : char}
-                </span>
-              ))}
-            </span>
-          </div>
-        </div>
-      </div>
 
       {/* The 3D Flip Container wrapping the Exact ProfileCard */}
       <div 

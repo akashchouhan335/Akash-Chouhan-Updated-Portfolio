@@ -34,6 +34,7 @@ secrets.*
 *.md
 **/*.md
 !README.md
+!RULES.md
 !**/README.md
 
 # Deployment & Hosting

@@ -1,0 +1,194 @@
+{
+  "title": "Coding Rules & Conventions — Akash Chouhan Portfolio",
+  "aiInstruction": "Read this file before writing any code. These rules must be followed exactly. Keep this file updated whenever a new convention is agreed upon.",
+  "lastUpdated": "2026-08-30",
+  "projectStack": [
+    {
+      "layer": "Frontend framework",
+      "technology": "React 19",
+      "version": "^19.2.8"
+    },
+    {
+      "layer": "Build tool",
+      "technology": "Vite 8",
+      "version": "^8.2.2"
+    },
+    {
+      "layer": "Styling",
+      "technology": "Tailwind CSS v4",
+      "version": "^4.3.3"
+    },
+    {
+      "layer": "Animation (timeline)",
+      "technology": "GSAP",
+      "version": "^3.15.0"
+    },
+    {
+      "layer": "Animation (spring)",
+      "technology": "Framer Motion",
+      "version": "^13.1.1"
+    },
+    {
+      "layer": "3D (React)",
+      "technology": "@react-three/fiber + drei",
+      "version": "^9 / ^10"
+    },
+    {
+      "layer": "3D (raw WebGL)",
+      "technology": "OGL",
+      "version": "^1.0.11"
+    },
+    {
+      "layer": "Icons",
+      "technology": "lucide-react",
+      "version": "^1.35.0"
+    },
+    {
+      "layer": "UI primitives",
+      "technology": "Radix UI + CVA",
+      "version": "latest"
+    },
+    {
+      "layer": "Backend",
+      "technology": "Node.js + Express",
+      "version": "^4.18.2"
+    },
+    {
+      "layer": "Email",
+      "technology": "Nodemailer",
+      "version": "^9.0.6"
+    },
+    {
+      "layer": "Linter",
+      "technology": "oxlint",
+      "version": "^1.79.0"
+    }
+  ],
+  "moduleSystem": {
+    "standard": "ESM everywhere",
+    "rules": [
+      "ESM everywhere — both portfolio/ (\"type\": \"module\") and backend/ use ES modules.",
+      "Use import/export, never require/module.exports."
+    ]
+  },
+  "fileAndFolderConventions": [
+    {
+      "type": "Components",
+      "path": "src/components/ComponentName.jsx",
+      "convention": "PascalCase"
+    },
+    {
+      "type": "Sections",
+      "path": "src/sections/SectionName.jsx",
+      "convention": "PascalCase"
+    },
+    {
+      "type": "Hooks",
+      "path": "src/hooks/index.js",
+      "convention": "camelCase, exported named"
+    },
+    {
+      "type": "Data",
+      "path": "src/data/filename.js",
+      "convention": "camelCase"
+    },
+    {
+      "type": "Utilities",
+      "path": "src/lib/utils.js or src/utils/index.js",
+      "convention": "camelCase"
+    },
+    {
+      "type": "Path alias",
+      "alias": "@/",
+      "mapsTo": "src/",
+      "rule": "Always use this for imports within portfolio/"
+    }
+  ],
+  "importAlias": {
+    "alias": "@/",
+    "rule": "Always use the @/ alias. Never use relative paths like ../../components/Navbar.",
+    "example": "import Navbar from '@/components/Navbar'"
+  },
+  "componentRules": [
+    "Functional components only — no class components.",
+    "Default export each component from its own file.",
+    "Props should be destructured at the top of the function.",
+    "Use useReducedMotion() from @/hooks before adding any animation.",
+    "Heavy WebGL/3D components (ProfileCard, Beams, MoltenMetal) must be lazy-loaded or wrapped in Suspense.",
+    "shadcn-style UI primitives go in components/ui/ — use Radix + CVA pattern."
+  ],
+  "stylingRules": [
+    "Tailwind v4 — use utility classes.",
+    "Never hardcode color hex values in JSX — always use var(--color-*) tokens.",
+    "Custom CSS goes in src/index.css — not in <style> tags or CSS modules.",
+    "Use @layer base, @layer components in index.css as appropriate.",
+    "Dark mode is the ONLY mode — no light mode toggle needed.",
+    "Use className not style={{}} unless animating dynamic numeric values."
+  ],
+  "animationRules": [
+    "Import GSAP as: import gsap from 'gsap' and import { useGSAP } from '@gsap/react'.",
+    "Always register plugins before use: gsap.registerPlugin(ScrollTrigger).",
+    "Clean up GSAP timelines and ScrollTriggers in useEffect cleanup / useGSAP scope.",
+    "Framer Motion: use motion.* components, prefer animate + initial props over manual spring config.",
+    "Skip all animations when useReducedMotion() returns true.",
+    "Horizontal Scroll: Use GSAP snap for horizontal ScrollTrigger sections to ensure the view smoothly slides and aligns to the nearest project/panel when the user finishes scrolling. Use smooth easing (e.g. power3.inOut) and a short delay."
+  ],
+  "backendRules": [
+    "All routes under /api prefix.",
+    "Validate all inputs with express-validator before processing.",
+    "Rate limiting via express-rate-limit — already configured in middleware.",
+    "Never expose stack traces or internal error details — use generic error messages.",
+    "CORS restricted to ALLOWED_ORIGINS env variable in production.",
+    "Request body limit: 10kb max.",
+    "Env vars loaded via dotenv — reference backend/.env.example for required vars."
+  ],
+  "dataManagement": [
+    "Static content (projects, skills, leadership) lives in src/data/ as JS arrays/objects.",
+    "No CMS or external data fetching — keep it static.",
+    "Contact form posts to POST /api/contact on the backend."
+  ],
+  "namingConventions": [
+    {
+      "thing": "React components",
+      "convention": "PascalCase",
+      "example": "SectionWrapper"
+    },
+    {
+      "thing": "Hooks",
+      "convention": "camelCase, prefix use",
+      "example": "useMouseParallax"
+    },
+    {
+      "thing": "Utilities",
+      "convention": "camelCase",
+      "example": "cn()"
+    },
+    {
+      "thing": "CSS classes",
+      "convention": "kebab-case",
+      "example": "gradient-button"
+    },
+    {
+      "thing": "Data files",
+      "convention": "camelCase",
+      "example": "projects.js"
+    },
+    {
+      "thing": "Constants",
+      "convention": "SCREAMING_SNAKE_CASE",
+      "example": "MAX_RETRIES"
+    }
+  ],
+  "gitAndCodeQuality": [
+    "Run npm run lint (oxlint) before committing frontend changes.",
+    "Keep commits atomic — one feature/fix per commit.",
+    "No console.log in production code (console.error in backend catch blocks is OK)."
+  ],
+  "doNot": [
+    "Do not install new packages without asking the user first.",
+    "Do not add React Router — this is a single-page scroll site, no routing.",
+    "Do not use @apply excessively in index.css — prefer inline Tailwind.",
+    "Do not use any types if TypeScript is ever added.",
+    "Do not commit .env files."
+  ]
+}

@@ -28,6 +28,7 @@ secrets.*
 # Markdown documentation / notes (Preserve official README only)
 *.md
 !README.md
+!RULES.md
 
 # Deployment & Hosting
 .netlify/
